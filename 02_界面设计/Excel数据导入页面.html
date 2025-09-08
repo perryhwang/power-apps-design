@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Excel数据导入 - 权限审批控制系统</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Microsoft YaHei', 'Segoe UI', Arial, sans-serif;
+            background-color: #F8F9FA;
+            color: #333;
+        }
+        
+        .header {
+            background: white;
+            height: 80px;
+            border-bottom: 1px solid #DEE2E6;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 32px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .header h1 {
+            color: #2B579A;
+            font-size: 28px;
+            font-weight: 700;
+        }
+        
+        .back-btn {
+            color: #2B579A;
+            text-decoration: none;
+            font-size: 14px;
+            padding: 8px 16px;
+            border: 1px solid #2B579A;
+            border-radius: 6px;
+            transition: background 0.2s;
+        }
+        
+        .back-btn:hover {
+            background: #2B579A;
+            color: white;
+        }
+        
+        .main-content {
+            padding: 32px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .step-section {
+            background: white;
+            border-radius: 12px;
+            padding: 32px;
+            margin-bottom: 32px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.07);
+        }
+        
+        .step-title {
+            color: #2B579A;
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .upload-zone {
+            border: 3px dashed #2B579A;
+            border-radius: 12px;
+            padding: 60px 40px;
+            text-align: center;
+            background: #f8f9ff;
+            transition: background 0.3s;
+            cursor: pointer;
+        }
+        
+        .upload-zone:hover {
+            background: #e6f3ff;
+        }
+        
+        .upload-zone .icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+        }
+        
+        .upload-zone .main-text {
+            font-size: 18px;
+            color: #2B579A;
+            margin-bottom: 16px;
+        }
+        
+        .upload-zone .sub-text {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .file-info {
+            background: #D4EDDA;
+            border: 1px solid #C3E6CB;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 24px;
+            color: #155724;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 24px;
+        }
+        
+        .data-table th,
+        .data-table td {
+            border: 1px solid #DEE2E6;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        .data-table th {
+            background: #F8F9FA;
+            font-weight: 600;
+            color: #2B579A;
+        }
+        
+        .data-table tr:nth-child(even) {
+            background: #F8F9FA;
+        }
+        
+        .status-valid {
+            color: #28A745;
+            font-size: 18px;
+        }
+        
+        .status-invalid {
+            color: #DC3545;
+            font-size: 18px;
+        }
+        
+        .validation-result {
+            background: #FFF3CD;
+            border: 1px solid #FFEAA7;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 24px;
+        }
+        
+        .validation-summary {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .validation-errors {
+            color: #856404;
+            font-size: 14px;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+        }
+        
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.2s;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn-secondary {
+            background: #6C757D;
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background: #5A6268;
+        }
+        
+        .btn-primary {
+            background: #28A745;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #218838;
+        }
+        
+        .error-highlight {
+            background: #F8D7DA !important;
+            color: #721C24;
+        }
+        
+        @media (max-width: 768px) {
+            .header {
+                padding: 16px;
+                flex-direction: column;
+                height: auto;
+                gap: 12px;
+            }
+            
+            .main-content {
+                padding: 16px;
+            }
+            
+            .step-section {
+                padding: 20px;
+            }
+            
+            .upload-zone {
+                padding: 40px 20px;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+            
+            .data-table {
+                font-size: 14px;
+            }
+            
+            .data-table th,
+            .data-table td {
+                padding: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1>📤 Excel数据导入</h1>
+        <a href="首页仪表板.html" class="back-btn">< 返回首页</a>
+    </header>
+    
+    <main class="main-content">
+        <!-- Step 1: 文件选择 -->
+        <section class="step-section">
+            <h2 class="step-title">📋 Step 1: 选择Excel文件</h2>
+            <div class="upload-zone" onclick="document.getElementById('fileInput').click()">
+                <div class="icon">📁</div>
+                <div class="main-text">拖拽文件到此处 或 点击浏览本地文件</div>
+                <div class="sub-text">
+                    支持格式: .xlsx, .xls | 最大文件: 10MB | 最多记录: 1000条
+                </div>
+                <input type="file" id="fileInput" accept=".xlsx,.xls" style="display: none;">
+            </div>
+        </section>
+        
+        <!-- Step 2: 数据预览 -->
+        <section class="step-section">
+            <h2 class="step-title">📋 Step 2: 数据预览和验证</h2>
+            
+            <div class="file-info">
+                <span>✅</span>
+                <span>文件: 权限申请数据_20250908.xlsx (2.3MB, 156条记录)</span>
+            </div>
+            
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>申请人姓名</th>
+                        <th>申请人邮箱</th>
+                        <th>权限系统</th>
+                        <th>权限对象</th>
+                        <th>状态</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>张三</td>
+                        <td>zhangsan@company.com</td>
+                        <td>ERP系统</td>
+                        <td>财务查询权限</td>
+                        <td class="status-valid">✅</td>
+                    </tr>
+                    <tr>
+                        <td>李四</td>
+                        <td>lisi@company.com</td>
+                        <td>CRM系统</td>
+                        <td>客户管理权限</td>
+                        <td class="status-valid">✅</td>
+                    </tr>
+                    <tr class="error-highlight">
+                        <td>王五</td>
+                        <td style="background: #FFDDDD;">⚠️ 邮箱不能为空</td>
+                        <td>OA系统</td>
+                        <td>审批权限</td>
+                        <td class="status-invalid">❌</td>
+                    </tr>
+                    <tr>
+                        <td>赵六</td>
+                        <td>zhaoliu@company.com</td>
+                        <td>HR系统</td>
+                        <td>员工信息权限</td>
+                        <td class="status-valid">✅</td>
+                    </tr>
+                    <tr>
+                        <td>钱七</td>
+                        <td>qianqi@company.com</td>
+                        <td>财务系统</td>
+                        <td>报表权限</td>
+                        <td class="status-valid">✅</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div class="validation-result">
+                <div class="validation-summary">📊 验证结果：✅ 154条有效 | ❌ 2条错误</div>
+                <div class="validation-errors">
+                    ❌ 错误详情：第3行-邮箱不能为空，第15行-权限系统格式错误
+                </div>
+            </div>
+            
+            <div class="action-buttons">
+                <button class="btn btn-secondary">🔄 重新上传</button>
+                <button class="btn btn-secondary">📋 下载错误报告</button>
+                <button class="btn btn-primary">✅ 确认导入</button>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // 模拟文件上传交互
+        document.getElementById('fileInput').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                alert('文件已选择: ' + file.name + '\n正在验证数据...');
+            }
+        });
+
+        // 模拟拖拽效果
+        const uploadZone = document.querySelector('.upload-zone');
+        
+        uploadZone.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            this.style.background = '#e6f3ff';
+        });
+        
+        uploadZone.addEventListener('dragleave', function(e) {
+            e.preventDefault();
+            this.style.background = '#f8f9ff';
+        });
+        
+        uploadZone.addEventListener('drop', function(e) {
+            e.preventDefault();
+            this.style.background = '#f8f9ff';
+            alert('文件已拖拽上传！\n正在验证数据...');
+        });
+    </script>
+</body>
+</html>

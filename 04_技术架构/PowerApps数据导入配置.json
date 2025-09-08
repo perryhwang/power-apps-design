@@ -1,0 +1,183 @@
+{
+  "ExcelImportConfig": {
+    "SupportedFormats": [".xlsx", ".xls"],
+    "MaxFileSize": "10MB",
+    "MaxRecords": 1000,
+    "RequiredColumns": [
+      {
+        "ColumnIndex": 0,
+        "ColumnName": "申请人姓名",
+        "DataType": "Text",
+        "Required": true,
+        "MaxLength": 50,
+        "ValidationRules": [
+          {
+            "Type": "NotEmpty",
+            "ErrorMessage": "申请人姓名不能为空"
+          },
+          {
+            "Type": "MaxLength",
+            "Value": 50,
+            "ErrorMessage": "申请人姓名长度不能超过50字符"
+          }
+        ]
+      },
+      {
+        "ColumnIndex": 1,
+        "ColumnName": "申请人邮箱",
+        "DataType": "Email",
+        "Required": true,
+        "MaxLength": 100,
+        "ValidationRules": [
+          {
+            "Type": "NotEmpty",
+            "ErrorMessage": "申请人邮箱不能为空"
+          },
+          {
+            "Type": "EmailFormat",
+            "Pattern": "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$",
+            "ErrorMessage": "邮箱格式不正确"
+          },
+          {
+            "Type": "MaxLength",
+            "Value": 100,
+            "ErrorMessage": "邮箱长度不能超过100字符"
+          }
+        ]
+      },
+      {
+        "ColumnIndex": 2,
+        "ColumnName": "权限系统",
+        "DataType": "Choice",
+        "Required": true,
+        "MaxLength": 50,
+        "AllowedValues": [
+          "ERP系统",
+          "CRM系统", 
+          "OA系统",
+          "财务系统",
+          "HR系统",
+          "其他"
+        ],
+        "ValidationRules": [
+          {
+            "Type": "NotEmpty",
+            "ErrorMessage": "权限系统不能为空"
+          },
+          {
+            "Type": "AllowedValues",
+            "ErrorMessage": "权限系统必须是预定义的值之一"
+          }
+        ]
+      },
+      {
+        "ColumnIndex": 3,
+        "ColumnName": "权限对象",
+        "DataType": "Text",
+        "Required": true,
+        "MaxLength": 200,
+        "ValidationRules": [
+          {
+            "Type": "NotEmpty",
+            "ErrorMessage": "权限对象不能为空"
+          },
+          {
+            "Type": "MaxLength",
+            "Value": 200,
+            "ErrorMessage": "权限对象描述长度不能超过200字符"
+          }
+        ]
+      },
+      {
+        "ColumnIndex": 4,
+        "ColumnName": "申请原因",
+        "DataType": "Text",
+        "Required": false,
+        "MaxLength": 500,
+        "ValidationRules": [
+          {
+            "Type": "MaxLength",
+            "Value": 500,
+            "ErrorMessage": "申请原因长度不能超过500字符"
+          }
+        ]
+      },
+      {
+        "ColumnIndex": 5,
+        "ColumnName": "预计使用期限",
+        "DataType": "Text",
+        "Required": false,
+        "MaxLength": 50,
+        "ValidationRules": [
+          {
+            "Type": "MaxLength",
+            "Value": 50,
+            "ErrorMessage": "预计使用期限长度不能超过50字符"
+          }
+        ]
+      }
+    ],
+    "DataProcessingRules": {
+      "SkipHeaderRow": true,
+      "IgnoreEmptyRows": true,
+      "DuplicateCheck": {
+        "Enabled": true,
+        "CheckFields": ["申请人邮箱", "权限系统", "权限对象"],
+        "Action": "Warning",
+        "Message": "发现重复申请：相同申请人申请相同权限系统的相同权限对象"
+      },
+      "AutoGeneration": {
+        "RequestID": {
+          "Pattern": "REQ{YYYYMMDD}{SequenceNumber:D4}",
+          "Example": "REQ202409080001"
+        },
+        "Status": "待审批",
+        "RequestDate": "CurrentDateTime"
+      }
+    },
+    "ErrorHandling": {
+      "ValidationFailureAction": "StopAndReport",
+      "MaxErrorsBeforeStop": 50,
+      "ErrorReportFormat": [
+        "行号",
+        "错误类型", 
+        "错误字段",
+        "错误内容",
+        "建议修改"
+      ]
+    }
+  },
+  
+  "PowerAppsFormulas": {
+    "FileValidation": {
+      "CheckFileType": "Right(Upper(FileUpload.FileName), 4) In [\".XLS\", \"XLSX\"]",
+      "CheckFileSize": "FileUpload.Size <= 10 * 1024 * 1024"
+    },
+    "DataValidation": {
+      "ValidateEmail": "IsMatch(EmailField, \"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$\")",
+      "ValidateRequired": "!IsBlank(RequiredField)",
+      "ValidateLength": "Len(TextField) <= MaxLength"
+    },
+    "DataProcessing": {
+      "GenerateRequestID": "\"REQ\" & Text(Today(), \"yyyymmdd\") & Text(CountRows(Filter(PermissionRequests, DateValue(Text(RequestDate, \"yyyy-mm-dd\")) = Today())) + 1, \"0000\")",
+      "ParseExcelData": "ForAll(ExcelData, {Applicant: Index(Value, 1), ApplicantEmail: Index(Value, 2), PermissionSystem: Index(Value, 3), PermissionObject: Index(Value, 4), Reason: Index(Value, 5), ExpectedDuration: Index(Value, 6)})"
+    }
+  },
+  
+  "SharePointIntegration": {
+    "ListName": "PermissionRequests", 
+    "Fields": {
+      "Title": "RequestID",
+      "Applicant": "申请人姓名",
+      "ApplicantEmail": "申请人邮箱",
+      "PermissionSystem": "权限系统",
+      "PermissionObject": "权限对象", 
+      "Reason": "申请原因",
+      "ExpectedDuration": "预计使用期限",
+      "Status": "待审批",
+      "RequestDate": "Created",
+      "RequestID": "Generated"
+    },
+    "BatchCreateLimit": 100
+  }
+}

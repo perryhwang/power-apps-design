@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>权限审批控制系统 - 首页仪表板</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Microsoft YaHei', 'Segoe UI', Arial, sans-serif;
+            background-color: #F8F9FA;
+            color: #333;
+        }
+        
+        .header {
+            background: white;
+            height: 80px;
+            border-bottom: 1px solid #DEE2E6;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 32px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .header h1 {
+            color: #2B579A;
+            font-size: 24px;
+            font-weight: 600;
+        }
+        
+        .user-info {
+            color: #6C757D;
+            font-size: 14px;
+        }
+        
+        .main-content {
+            padding: 32px;
+        }
+        
+        .stats-overview {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 32px;
+            margin-bottom: 32px;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 24px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.07);
+            text-align: center;
+            transition: transform 0.2s;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+        }
+        
+        .stat-card .icon {
+            font-size: 32px;
+            margin-bottom: 12px;
+        }
+        
+        .stat-card .number {
+            font-size: 36px;
+            font-weight: bold;
+            color: #2B579A;
+            margin-bottom: 8px;
+        }
+        
+        .stat-card .label {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .stat-card .trend {
+            font-size: 14px;
+            padding: 4px 8px;
+            border-radius: 20px;
+        }
+        
+        .trend.up {
+            color: #28A745;
+            background: #D4EDDA;
+        }
+        
+        .trend.down {
+            color: #DC3545;
+            background: #F8D7DA;
+        }
+        
+        .content-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 32px;
+            margin-bottom: 32px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.07);
+        }
+        
+        .card h3 {
+            color: #2B579A;
+            margin-bottom: 20px;
+            font-size: 18px;
+        }
+        
+        .chart-placeholder {
+            height: 200px;
+            background: linear-gradient(45deg, #f0f8ff 25%, transparent 25%),
+                        linear-gradient(-45deg, #f0f8ff 25%, transparent 25%),
+                        linear-gradient(45deg, transparent 75%, #f0f8ff 75%),
+                        linear-gradient(-45deg, transparent 75%, #f0f8ff 75%);
+            background-size: 20px 20px;
+            background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+            border: 2px dashed #2B579A;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #2B579A;
+            font-size: 16px;
+            border-radius: 8px;
+        }
+        
+        .quick-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .action-btn {
+            padding: 16px 20px;
+            background: #2B579A;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            text-align: left;
+            transition: background 0.2s;
+            text-decoration: none;
+            display: block;
+        }
+        
+        .action-btn:hover {
+            background: #1e4082;
+        }
+        
+        .activity-list {
+            list-style: none;
+        }
+        
+        .activity-list li {
+            padding: 12px 0;
+            border-bottom: 1px solid #E9ECEF;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .activity-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .activity-text {
+            flex: 1;
+        }
+        
+        .activity-time {
+            color: #6C757D;
+            font-size: 14px;
+        }
+        
+        @media (max-width: 768px) {
+            .stats-overview {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 16px;
+            }
+            
+            .content-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .header {
+                padding: 0 16px;
+                flex-direction: column;
+                height: auto;
+                padding: 16px;
+            }
+            
+            .main-content {
+                padding: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1>🏢 权限审批控制系统</h1>
+        <div class="user-info">👤 张三 管理员  📅 2025-09-08</div>
+    </header>
+    
+    <main class="main-content">
+        <!-- 统计卡片区域 -->
+        <section class="stats-overview">
+            <div class="stat-card">
+                <div class="icon">📋</div>
+                <div class="number">127</div>
+                <div class="label">待审批</div>
+                <div class="trend up">↗️ +15%</div>
+            </div>
+            <div class="stat-card">
+                <div class="icon">⏳</div>
+                <div class="number">45</div>
+                <div class="label">审批中</div>
+                <div class="trend up">↗️ +8%</div>
+            </div>
+            <div class="stat-card">
+                <div class="icon">✅</div>
+                <div class="number">892</div>
+                <div class="label">已完成</div>
+                <div class="trend up">↗️ +23%</div>
+            </div>
+            <div class="stat-card">
+                <div class="icon">⚠️</div>
+                <div class="number">12</div>
+                <div class="label">已超时</div>
+                <div class="trend down">↘️ -5%</div>
+            </div>
+        </section>
+        
+        <!-- 图表和快速操作区域 -->
+        <section class="content-row">
+            <div class="card">
+                <h3>📈 审批数量趋势</h3>
+                <div class="chart-placeholder">
+                    📊 趋势图表区域<br>
+                    (此处将显示动态图表)
+                </div>
+            </div>
+            <div class="card">
+                <h3>🎯 快速操作</h3>
+                <div class="quick-actions">
+                    <a href="excel-import.html" class="action-btn">📤 Excel数据导入</a>
+                    <a href="application-management.html" class="action-btn">📋 申请管理</a>
+                    <a href="system-config.html" class="action-btn">⚙️ 系统配置</a>
+                    <a href="reports.html" class="action-btn">📊 报告导出</a>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 最近活动区域 -->
+        <section class="card">
+            <h3>📋 最近活动</h3>
+            <ul class="activity-list">
+                <li>
+                    <span class="activity-text">• 李四申请CRM系统权限，等待王五审批</span>
+                    <span class="activity-time">⏰ 2小时前</span>
+                </li>
+                <li>
+                    <span class="activity-text">• 张三审批了ERP财务模块权限申请</span>
+                    <span class="activity-time">✅ 4小时前</span>
+                </li>
+                <li>
+                    <span class="activity-text">• 赵六的OA系统权限申请已超时</span>
+                    <span class="activity-time">⚠️ 1天前</span>
+                </li>
+                <li>
+                    <span class="activity-text">• 系统自动导入了50条新申请</span>
+                    <span class="activity-time">📤 2天前</span>
+                </li>
+            </ul>
+        </section>
+    </main>
+</body>
+</html>
