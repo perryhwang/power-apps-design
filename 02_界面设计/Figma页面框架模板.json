@@ -1,0 +1,399 @@
+{
+  "name": "Power Apps权限审批系统 - Figma页面框架",
+  "version": "1.0.0",
+  "description": "预设的页面框架模板，可直接复制到Figma中使用",
+
+  "pages": {
+    "Dashboard": {
+      "frame": {
+        "width": 1440,
+        "height": 1024,
+        "backgroundColor": "#F8F9FA"
+      },
+      "components": {
+        "header": {
+          "type": "rectangle",
+          "x": 0,
+          "y": 0,
+          "width": 1440,
+          "height": 80,
+          "backgroundColor": "#FFFFFF",
+          "border": "1px solid #DEE2E6",
+          "content": {
+            "title": {
+              "text": "🏢 权限审批控制系统",
+              "x": 32,
+              "y": 24,
+              "fontSize": 24,
+              "fontWeight": "600",
+              "color": "#2B579A"
+            },
+            "userInfo": {
+              "text": "👤 张三 管理员  📅 2025-09-08",
+              "x": 1200,
+              "y": 24,
+              "fontSize": 14,
+              "color": "#6C757D"
+            }
+          }
+        },
+        "statsCards": {
+          "type": "grid",
+          "x": 32,
+          "y": 112,
+          "columns": 4,
+          "columnWidth": 320,
+          "rowHeight": 120,
+          "gap": 32,
+          "cards": [
+            {
+              "title": "待审批",
+              "value": "127",
+              "trend": "+15%",
+              "icon": "📋",
+              "color": "#2B579A"
+            },
+            {
+              "title": "审批中",
+              "value": "45",
+              "trend": "+8%",
+              "icon": "⏳",
+              "color": "#2B579A"
+            },
+            {
+              "title": "已完成",
+              "value": "892",
+              "trend": "+23%",
+              "icon": "✅",
+              "color": "#2B579A"
+            },
+            {
+              "title": "已超时",
+              "value": "12",
+              "trend": "-5%",
+              "icon": "⚠️",
+              "color": "#2B579A"
+            }
+          ]
+        },
+        "chartSection": {
+          "type": "flex",
+          "x": 32,
+          "y": 312,
+          "width": 688,
+          "height": 288,
+          "direction": "row",
+          "gap": 32,
+          "leftCard": {
+            "type": "card",
+            "width": 320,
+            "height": 288,
+            "title": "📈 审批数量趋势",
+            "content": "Line chart placeholder"
+          },
+          "rightCard": {
+            "type": "card",
+            "width": 320,
+            "height": 288,
+            "title": "🎯 快速操作",
+            "buttons": [
+              "📤 Excel数据导入",
+              "📋 申请管理",
+              "⚙️ 系统配置",
+              "📊 报告导出"
+            ]
+          }
+        },
+        "activitySection": {
+          "type": "card",
+          "x": 32,
+          "y": 632,
+          "width": 1376,
+          "height": 360,
+          "title": "📋 最近活动",
+          "items": [
+            "• 李四申请CRM系统权限，等待王五审批          ⏰ 2小时前",
+            "• 张三审批了ERP财务模块权限申请             ✅ 4小时前",
+            "• 赵六的OA系统权限申请已超时               ⚠️ 1天前",
+            "• 系统自动导入了50条新申请                 📤 2天前"
+          ]
+        }
+      }
+    },
+
+    "ExcelImport": {
+      "frame": {
+        "width": 1440,
+        "height": 1024,
+        "backgroundColor": "#F8F9FA"
+      },
+      "components": {
+        "header": {
+          "type": "rectangle",
+          "x": 0,
+          "y": 0,
+          "width": 1440,
+          "height": 80,
+          "backgroundColor": "#FFFFFF",
+          "border": "1px solid #DEE2E6",
+          "content": {
+            "title": {
+              "text": "📤 Excel数据导入",
+              "x": 32,
+              "y": 24,
+              "fontSize": 32,
+              "fontWeight": "700",
+              "color": "#2B579A"
+            },
+            "backButton": {
+              "text": "[< 返回首页]",
+              "x": 1300,
+              "y": 24,
+              "fontSize": 14,
+              "color": "#2B579A"
+            }
+          }
+        },
+        "step1": {
+          "type": "card",
+          "x": 32,
+          "y": 112,
+          "width": 1376,
+          "height": 168,
+          "title": "📋 Step 1: 选择Excel文件",
+          "content": {
+            "dropZone": {
+              "type": "dashedRectangle",
+              "x": 24,
+              "y": 60,
+              "width": 1328,
+              "height": 84,
+              "text": "📁 拖拽文件到此处 或 [🗂️ 浏览本地文件]",
+              "subText": "支持格式: .xlsx, .xls | 最大文件: 10MB | 最多记录: 1000条"
+            }
+          }
+        },
+        "step2": {
+          "type": "card",
+          "x": 32,
+          "y": 312,
+          "width": 1376,
+          "height": 288,
+          "title": "📋 Step 2: 数据预览和验证",
+          "content": {
+            "fileInfo": {
+              "text": "✅ 文件: 权限申请数据_20250908.xlsx (2.3MB, 156条记录)",
+              "x": 24,
+              "y": 60
+            },
+            "table": {
+              "type": "table",
+              "x": 24,
+              "y": 84,
+              "width": 1328,
+              "height": 180,
+              "headers": ["申请人姓名", "申请人邮箱", "权限系统", "权限对象", "状态"],
+              "rows": [
+                ["张三", "zhangsan@company.com", "ERP系统", "财务查询权限", "✅"],
+                ["李四", "lisi@company.com", "CRM系统", "客户管理权限", "✅"],
+                ["王五", "", "OA系统", "审批权限", "❌"]
+              ]
+            }
+          }
+        },
+        "validation": {
+          "type": "text",
+          "x": 32,
+          "y": 624,
+          "width": 1376,
+          "text": "📊 验证结果：✅ 154条有效 | ❌ 2条错误\n❌ 错误详情：第3行-邮箱不能为空，第15行-权限系统格式错误"
+        },
+        "actionButtons": {
+          "type": "buttonGroup",
+          "x": 32,
+          "y": 680,
+          "buttons": [
+            {"text": "[🔄 重新上传]", "style": "secondary"},
+            {"text": "[📋 下载错误报告]", "style": "secondary"},
+            {"text": "[✅ 确认导入]", "style": "primary"}
+          ]
+        }
+      }
+    },
+
+    "ApplicationManagement": {
+      "frame": {
+        "width": 1440,
+        "height": 1024,
+        "backgroundColor": "#F8F9FA"
+      },
+      "components": {
+        "header": {
+          "type": "rectangle",
+          "x": 0,
+          "y": 0,
+          "width": 1440,
+          "height": 80,
+          "backgroundColor": "#FFFFFF",
+          "border": "1px solid #DEE2E6",
+          "content": {
+            "title": {
+              "text": "📋 申请管理",
+              "x": 32,
+              "y": 24,
+              "fontSize": 32,
+              "fontWeight": "700",
+              "color": "#2B579A"
+            },
+            "backButton": {
+              "text": "[< 返回首页]",
+              "x": 1300,
+              "y": 24,
+              "fontSize": 14,
+              "color": "#2B579A"
+            }
+          }
+        },
+        "filters": {
+          "type": "flex",
+          "x": 32,
+          "y": 112,
+          "width": 1376,
+          "height": 80,
+          "direction": "row",
+          "gap": 16,
+          "items": [
+            {"type": "select", "label": "状态", "value": "全部 ▼"},
+            {"type": "select", "label": "系统", "value": "全部 ▼"},
+            {"type": "input", "label": "申请人", "placeholder": "___________"},
+            {"type": "button", "text": "[🔍 搜索]", "style": "primary"},
+            {"type": "select", "label": "时间", "value": "最近7天 ▼"},
+            {"type": "select", "label": "审核人", "value": "全部 ▼"},
+            {"type": "button", "text": "[🗂️ 导出Excel]", "style": "secondary"}
+          ]
+        },
+        "table": {
+          "type": "table",
+          "x": 32,
+          "y": 224,
+          "width": 1376,
+          "height": 600,
+          "headers": ["ID", "申请人", "权限系统", "权限对象", "状态", "审核人", "操作"],
+          "rows": [
+            ["REQ240908001", "张三", "ERP系统", "财务查询", "✅已通过", "王经理", "[详情]"],
+            ["REQ240908002", "李四", "CRM系统", "客户管理", "⏳审批中", "李总监", "[详情]"],
+            ["REQ240908003", "王五", "OA系统", "审批权限", "❌已拒绝", "张主管", "[详情]"],
+            ["REQ240908004", "赵六", "HR系统", "员工信息", "⚠️已超时", "刘经理", "[催办]"],
+            ["REQ240908005", "钱七", "财务系统", "报表权限", "📋待审批", "陈总监", "[详情]"]
+          ]
+        },
+        "pagination": {
+          "type": "pagination",
+          "x": 600,
+          "y": 848,
+          "text": "[📄 第1页/共13页]"
+        },
+        "legend": {
+          "type": "text",
+          "x": 32,
+          "y": 880,
+          "text": "状态图例: ✅已通过 ❌已拒绝 ⏳审批中 📋待审批 ⚠️已超时"
+        }
+      }
+    },
+
+    "MobileDashboard": {
+      "frame": {
+        "width": 375,
+        "height": 812,
+        "backgroundColor": "#F8F9FA"
+      },
+      "components": {
+        "header": {
+          "type": "rectangle",
+          "x": 0,
+          "y": 0,
+          "width": 375,
+          "height": 60,
+          "backgroundColor": "#FFFFFF",
+          "content": {
+            "title": {
+              "text": "🏢 权限审批系统",
+              "x": 16,
+              "y": 18,
+              "fontSize": 18,
+              "fontWeight": "600",
+              "color": "#2B579A"
+            }
+          }
+        },
+        "stats": {
+          "type": "card",
+          "x": 16,
+          "y": 84,
+          "width": 343,
+          "height": 120,
+          "title": "📊 今日待办",
+          "items": [
+            "📋 待审批: 12",
+            "⏳ 审批中: 5",
+            "⚠️ 已超时: 2"
+          ]
+        },
+        "quickActions": {
+          "type": "card",
+          "x": 16,
+          "y": 220,
+          "width": 343,
+          "height": 160,
+          "title": "🎯 快速操作",
+          "buttons": [
+            "[📤 导入数据]",
+            "[📋 查看申请]",
+            "[📊 查看报告]"
+          ]
+        },
+        "recentActivity": {
+          "type": "card",
+          "x": 16,
+          "y": 396,
+          "width": 343,
+          "height": 200,
+          "title": "📋 最近活动",
+          "items": [
+            "• 李四申请CRM权限 ⏰ 2小时前",
+            "• 张三审批了ERP权限 ✅ 4小时前"
+          ]
+        },
+        "bottomNav": {
+          "type": "rectangle",
+          "x": 0,
+          "y": 764,
+          "width": 375,
+          "height": 48,
+          "backgroundColor": "#FFFFFF",
+          "border": "1px solid #DEE2E6",
+          "content": {
+            "tabs": ["🏠", "📋", "👥", "📊", "⚙️"]
+          }
+        }
+      }
+    }
+  },
+
+  "instructions": {
+    "setup": [
+      "1. 在Figma中创建新文件",
+      "2. 设置页面：Dashboard, Excel导入, 申请管理, 移动端",
+      "3. 复制相应的JSON结构到Figma",
+      "4. 使用Auto Layout调整布局",
+      "5. 应用设计系统颜色和字体"
+    ],
+    "tips": [
+      "使用Figma的Grid和Layout Grids保持一致性",
+      "创建组件库以重用元素",
+      "使用Constraints实现响应式设计",
+      "添加交互原型展示用户流程"
+    ]
+  }
+}

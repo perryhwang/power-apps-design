@@ -1,0 +1,328 @@
+# Figma Component Library Template
+# Power Apps权限审批系统组件库
+
+## 设计系统变量
+
+### Colors
+Primary/Primary Blue: #2B579A
+Success/Success Green: #28A745
+Warning/Warning Orange: #FFC107
+Error/Error Red: #DC3545
+Background/Background Gray: #F8F9FA
+Text/Text Dark: #212529
+Text/Text Light: #6C757D
+Border/Border Light: #DEE2E6
+
+### Typography
+H1: 32px Bold Primary Blue
+H2: 24px Semi-bold Text Dark
+H3: 18px Medium Text Dark
+Body Large: 16px Regular Text Dark
+Body Regular: 14px Regular Text Dark
+Body Small: 12px Regular Text Light
+Button Primary: 14px Medium White on Primary Blue
+Button Secondary: 14px Medium Primary Blue
+
+## 基础组件
+
+### Button Components
+
+#### Primary Button
+- Background: Primary Blue (#2B579A)
+- Text: White
+- Border Radius: 6px
+- Padding: 12px 24px
+- Font: Button Primary
+- Hover: Darken background by 10%
+- Variants: Default, Hover, Disabled, Loading
+
+#### Secondary Button
+- Background: White
+- Border: 1px solid Primary Blue
+- Text: Primary Blue
+- Border Radius: 6px
+- Padding: 12px 24px
+- Font: Button Secondary
+- Hover: Light blue background
+
+#### Icon Button
+- Size: 40x40px
+- Background: Transparent
+- Icon: 20x20px centered
+- Border Radius: 6px
+- Hover: Light gray background
+
+### Card Components
+
+#### Stats Card
+- Size: 320x120px
+- Background: White
+- Border Radius: 8px
+- Shadow: 0 2px 8px rgba(0,0,0,0.1)
+- Padding: 24px
+- Structure:
+  - Icon (24x24px) + Title (H3)
+  - Value (48px Bold Primary Blue)
+  - Trend (Small text with arrow)
+
+#### Content Card
+- Background: White
+- Border Radius: 8px
+- Shadow: 0 2px 8px rgba(0,0,0,0.1)
+- Padding: 24px
+- Header: H3 + optional action button
+- Content: Flexible height
+
+### Form Components
+
+#### Input Field
+- Height: 48px
+- Background: White
+- Border: 1px solid Border Light
+- Border Radius: 6px
+- Padding: 12px 16px
+- Font: Body Regular
+- Focus: Primary Blue border
+- Error: Error Red border
+
+#### Select Dropdown
+- Same as Input Field
+- Right icon: Chevron down (16x16px)
+- Options: Hover highlight
+
+#### Checkbox
+- Size: 20x20px
+- Border: 1px solid Border Light
+- Border Radius: 4px
+- Check mark: Primary Blue
+- Label: Body Regular, 8px left margin
+
+### Table Components
+
+#### Data Table
+- Header:
+  - Background: Primary Blue
+  - Text: White
+  - Height: 48px
+  - Font: Body Regular Medium
+- Rows:
+  - Height: 40px
+  - Alternating: White / #F8F9FA
+  - Hover: Light blue highlight
+  - Font: Body Regular
+
+#### Status Badges
+- Size: 80x24px
+- Border Radius: 12px
+- Font: Body Small Medium
+
+- Approved: Green background, White text
+- Rejected: Red background, White text
+- Pending: Orange background, White text
+- In Progress: Blue background, White text
+- Overdue: Yellow background, Dark text
+
+### Navigation Components
+
+#### Top Navigation
+- Height: 80px
+- Background: White
+- Border Bottom: 1px solid Border Light
+- Logo/Title: Left, H2 Primary Blue
+- User Info: Right, Body Regular
+
+#### Breadcrumb
+- Height: 24px
+- Links: Body Regular, Primary Blue
+- Separators: / Gray
+- Current: Text Dark
+
+#### Pagination
+- Height: 32px
+- Buttons: Secondary Button style
+- Numbers: Body Regular
+- Current: Primary Button style
+
+### Chart Components
+
+#### Line Chart Container
+- Background: White
+- Border Radius: 8px
+- Padding: 24px
+- Title: H3
+- Chart Area: Flexible
+- Grid: Light Gray lines
+- Data Line: Primary Blue, 2px
+
+#### Pie Chart Container
+- Same as Line Chart
+- Legend: Right side
+- Colors: Primary Blue variations
+
+### Modal Components
+
+#### Modal Overlay
+- Full screen
+- Background: Black 50% opacity
+- Center content
+
+#### Modal Content
+- Max Width: 600px
+- Background: White
+- Border Radius: 12px
+- Shadow: 0 10px 40px rgba(0,0,0,0.2)
+- Header: H2 + Close button
+- Content: Padding 24px
+- Footer: Button group
+
+### Icon Library
+
+#### Status Icons
+- Check Circle: ✅ Green
+- X Circle: ❌ Red
+- Clock: ⏳ Orange
+- Document: 📋 Blue
+- Warning: ⚠️ Yellow
+
+#### Action Icons
+- Upload: 📤
+- Download: 📥
+- Search: 🔍
+- Filter: 🍽️
+- Edit: ✏️
+- Delete: 🗑️
+- Add: ➕
+- Settings: ⚙️
+
+#### Navigation Icons
+- Home: 🏠
+- Users: 👥
+- Chart: 📊
+- File: 📄
+- Mail: 📧
+
+## Layout System
+
+### Spacing Scale
+- 4px: xs
+- 8px: sm
+- 12px: md
+- 16px: lg
+- 24px: xl
+- 32px: 2xl
+- 48px: 3xl
+- 64px: 4xl
+
+### Breakpoints
+- Mobile: < 768px
+- Tablet: 768px - 1199px
+- Desktop: ≥ 1200px
+
+### Grid System
+- Container: Max 1440px
+- Columns: 12 column grid
+- Gutter: 32px
+- Margin: 32px
+
+## Component Variants
+
+### Button Variants
+- Primary: Solid blue
+- Secondary: Outlined blue
+- Success: Solid green
+- Danger: Solid red
+- Ghost: Transparent
+- Sizes: Small (32px), Medium (40px), Large (48px)
+
+### Card Variants
+- Default: White background
+- Bordered: White with border
+- Elevated: With shadow
+- Flat: No shadow
+
+### Input Variants
+- Default: Standard input
+- Search: With search icon
+- Password: With show/hide toggle
+- Textarea: Multi-line
+- Error: Red border and message
+
+## Auto Layout Patterns
+
+### Button Groups
+- Horizontal stack
+- 8px gap between buttons
+- Equal width or auto width
+
+### Form Fields
+- Vertical stack
+- 16px gap between fields
+- Label above input
+- 8px gap between label and input
+
+### Card Grids
+- Responsive grid
+- Min width 320px
+- Auto fit columns
+- 24px gap
+
+### Navigation Lists
+- Vertical stack
+- 8px gap
+- Icon + text alignment
+- Hover states
+
+## Responsive Behavior
+
+### Mobile Adaptations
+- Single column layout
+- Stacked navigation
+- Full width buttons
+- Touch-friendly sizing (44px minimum)
+- Simplified content
+
+### Tablet Adaptations
+- 2-column grid for cards
+- Condensed sidebars
+- Medium-sized touch targets
+
+### Desktop Optimizations
+- Multi-column layouts
+- Hover states
+- Keyboard navigation
+- Expanded content
+
+## Accessibility Guidelines
+
+### Color Contrast
+- Text on background: 4.5:1 minimum
+- Large text: 3:1 minimum
+- Interactive elements: 3:1 minimum
+
+### Focus Indicators
+- 2px solid Primary Blue
+- 2px border radius
+- Visible on keyboard navigation
+
+### Semantic Structure
+- Proper heading hierarchy
+- ARIA labels where needed
+- Screen reader friendly
+
+## Implementation Notes
+
+### Component Naming Convention
+- Component/Type/Variant/Size
+- Example: Button/Primary/Default/Medium
+
+### Layer Organization
+- Components at top level
+- Variants as nested components
+- Assets in separate frames
+
+### Version Control
+- Use Figma's version history
+- Document changes in descriptions
+- Tag major updates
+
+This template provides a comprehensive foundation for building the Power Apps permission approval system UI in Figma. Start with the design system setup, then build components systematically following the established patterns.

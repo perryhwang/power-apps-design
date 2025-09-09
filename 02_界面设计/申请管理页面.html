@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>申请管理 - 权限审批控制系统</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Microsoft YaHei', 'Segoe UI', Arial, sans-serif;
+            background-color: #F8F9FA;
+            color: #333;
+        }
+        
+        .header {
+            background: white;
+            height: 80px;
+            border-bottom: 1px solid #DEE2E6;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 32px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .header h1 {
+            color: #2B579A;
+            font-size: 28px;
+            font-weight: 700;
+        }
+        
+        .back-btn {
+            color: #2B579A;
+            text-decoration: none;
+            font-size: 14px;
+            padding: 8px 16px;
+            border: 1px solid #2B579A;
+            border-radius: 6px;
+            transition: background 0.2s;
+        }
+        
+        .back-btn:hover {
+            background: #2B579A;
+            color: white;
+        }
+        
+        .main-content {
+            padding: 32px;
+        }
+        
+        .filters-section {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.07);
+        }
+        
+        .filters-title {
+            color: #2B579A;
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .filter-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+        
+        .filter-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .filter-select {
+            padding: 8px 12px;
+            border: 1px solid #CED4DA;
+            border-radius: 6px;
+            font-size: 14px;
+            min-width: 120px;
+        }
+        
+        .filter-input {
+            padding: 8px 12px;
+            border: 1px solid #CED4DA;
+            border-radius: 6px;
+            font-size: 14px;
+            width: 200px;
+        }
+        
+        .filter-btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        
+        .btn-primary {
+            background: #2B579A;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #1e4082;
+        }
+        
+        .btn-secondary {
+            background: #6C757D;
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background: #5A6268;
+        }
+        
+        .table-section {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.07);
+        }
+        
+        .table-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .table-title {
+            color: #2B579A;
+            font-size: 18px;
+            font-weight: 600;
+        }
+        
+        .pagination {
+            color: #6C757D;
+            font-size: 14px;
+        }
+        
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        
+        .data-table th,
+        .data-table td {
+            border: 1px solid #DEE2E6;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        .data-table th {
+            background: #F8F9FA;
+            font-weight: 600;
+            color: #2B579A;
+        }
+        
+        .data-table tr:hover {
+            background: #F8F9FA;
+        }
+        
+        .status-approved {
+            color: #28A745;
+            background: #D4EDDA;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+        }
+        
+        .status-pending {
+            color: #FD7E14;
+            background: #FCF4E6;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+        }
+        
+        .status-rejected {
+            color: #DC3545;
+            background: #F8D7DA;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+        }
+        
+        .status-timeout {
+            color: #E83E8C;
+            background: #F8D7DA;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+        }
+        
+        .status-processing {
+            color: #17A2B8;
+            background: #D1ECF1;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+        }
+        
+        .action-btn {
+            background: #007BFF;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        
+        .action-btn:hover {
+            background: #0056B3;
+        }
+        
+        .action-btn.urgent {
+            background: #DC3545;
+        }
+        
+        .action-btn.urgent:hover {
+            background: #C82333;
+        }
+        
+        .legend {
+            background: #F8F9FA;
+            border: 1px solid #DEE2E6;
+            border-radius: 8px;
+            padding: 12px;
+            margin-top: 16px;
+            font-size: 14px;
+            color: #6C757D;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+        }
+        
+        .modal-content {
+            background: white;
+            margin: 5% auto;
+            padding: 32px;
+            width: 90%;
+            max-width: 600px;
+            border-radius: 12px;
+            position: relative;
+        }
+        
+        .close {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+            color: #999;
+        }
+        
+        .close:hover {
+            color: #333;
+        }
+        
+        .detail-section {
+            margin-bottom: 24px;
+        }
+        
+        .detail-title {
+            color: #2B579A;
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .detail-content {
+            color: #333;
+            line-height: 1.6;
+            margin-bottom: 8px;
+        }
+        
+        .timeline {
+            list-style: none;
+            margin-left: 20px;
+        }
+        
+        .timeline li {
+            padding: 8px 0;
+            border-left: 2px solid #DEE2E6;
+            padding-left: 16px;
+            position: relative;
+        }
+        
+        .timeline li:before {
+            content: '•';
+            position: absolute;
+            left: -6px;
+            background: white;
+            color: #28A745;
+            font-size: 16px;
+        }
+        
+        @media (max-width: 768px) {
+            .header {
+                padding: 16px;
+                flex-direction: column;
+                height: auto;
+                gap: 12px;
+            }
+            
+            .main-content {
+                padding: 16px;
+            }
+            
+            .filter-row {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .filter-input {
+                width: 100%;
+            }
+            
+            .data-table {
+                font-size: 12px;
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+            
+            .data-table th,
+            .data-table td {
+                padding: 8px;
+            }
+            
+            .modal-content {
+                margin: 10% auto;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1>📋 申请管理</h1>
+        <a href="首页仪表板.html" class="back-btn">< 返回首页</a>
+    </header>
+    
+    <main class="main-content">
+        <!-- 筛选条件区域 -->
+        <section class="filters-section">
+            <h2 class="filters-title">🔍 筛选条件</h2>
+            <div class="filter-row">
+                <div class="filter-group">
+                    <label>状态:</label>
+                    <select class="filter-select">
+                        <option>全部</option>
+                        <option>待审批</option>
+                        <option>审批中</option>
+                        <option>已通过</option>
+                        <option>已拒绝</option>
+                        <option>已超时</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>系统:</label>
+                    <select class="filter-select">
+                        <option>全部</option>
+                        <option>ERP系统</option>
+                        <option>CRM系统</option>
+                        <option>OA系统</option>
+                        <option>HR系统</option>
+                        <option>财务系统</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>申请人:</label>
+                    <input type="text" class="filter-input" placeholder="输入申请人姓名或邮箱">
+                </div>
+                <button class="filter-btn btn-primary">🔍 搜索</button>
+            </div>
+            <div class="filter-row">
+                <div class="filter-group">
+                    <label>时间:</label>
+                    <select class="filter-select">
+                        <option>最近7天</option>
+                        <option>最近30天</option>
+                        <option>最近90天</option>
+                        <option>自定义</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>审核人:</label>
+                    <select class="filter-select">
+                        <option>全部</option>
+                        <option>王经理</option>
+                        <option>李总监</option>
+                        <option>张主管</option>
+                        <option>刘经理</option>
+                        <option>陈总监</option>
+                    </select>
+                </div>
+                <button class="filter-btn btn-secondary">🗂️ 导出Excel</button>
+            </div>
+        </section>
+        
+        <!-- 申请列表区域 -->
+        <section class="table-section">
+            <div class="table-header">
+                <h3 class="table-title">📊 申请列表 (共247条记录)</h3>
+                <div class="pagination">📄 第1页/共13页</div>
+            </div>
+            
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>申请编号</th>
+                        <th>申请人</th>
+                        <th>权限系统</th>
+                        <th>权限对象</th>
+                        <th>状态</th>
+                        <th>审核人</th>
+                        <th>申请时间</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>REQ240908001</td>
+                        <td>张三</td>
+                        <td>ERP系统</td>
+                        <td>财务查询权限</td>
+                        <td><span class="status-approved">✅已通过</span></td>
+                        <td>王经理</td>
+                        <td>2025-09-08 09:30</td>
+                        <td><button class="action-btn" onclick="showDetail('REQ240908001')">详情</button></td>
+                    </tr>
+                    <tr>
+                        <td>REQ240908002</td>
+                        <td>李四</td>
+                        <td>CRM系统</td>
+                        <td>客户管理权限</td>
+                        <td><span class="status-processing">⏳审批中</span></td>
+                        <td>李总监</td>
+                        <td>2025-09-08 10:15</td>
+                        <td><button class="action-btn" onclick="showDetail('REQ240908002')">详情</button></td>
+                    </tr>
+                    <tr>
+                        <td>REQ240908003</td>
+                        <td>王五</td>
+                        <td>OA系统</td>
+                        <td>审批权限</td>
+                        <td><span class="status-rejected">❌已拒绝</span></td>
+                        <td>张主管</td>
+                        <td>2025-09-08 11:20</td>
+                        <td><button class="action-btn" onclick="showDetail('REQ240908003')">详情</button></td>
+                    </tr>
+                    <tr>
+                        <td>REQ240908004</td>
+                        <td>赵六</td>
+                        <td>HR系统</td>
+                        <td>员工信息权限</td>
+                        <td><span class="status-timeout">⚠️已超时</span></td>
+                        <td>刘经理</td>
+                        <td>2025-09-07 14:30</td>
+                        <td><button class="action-btn urgent">催办</button></td>
+                    </tr>
+                    <tr>
+                        <td>REQ240908005</td>
+                        <td>钱七</td>
+                        <td>财务系统</td>
+                        <td>报表权限</td>
+                        <td><span class="status-pending">📋待审批</span></td>
+                        <td>陈总监</td>
+                        <td>2025-09-08 15:45</td>
+                        <td><button class="action-btn" onclick="showDetail('REQ240908005')">详情</button></td>
+                    </tr>
+                    <tr>
+                        <td>REQ240908006</td>
+                        <td>孙八</td>
+                        <td>ERP系统</td>
+                        <td>库存管理权限</td>
+                        <td><span class="status-approved">✅已通过</span></td>
+                        <td>王经理</td>
+                        <td>2025-09-08 16:00</td>
+                        <td><button class="action-btn" onclick="showDetail('REQ240908006')">详情</button></td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div class="legend">
+                状态图例: 
+                <span class="status-approved">✅已通过</span>
+                <span class="status-rejected">❌已拒绝</span>
+                <span class="status-processing">⏳审批中</span>
+                <span class="status-pending">📋待审批</span>
+                <span class="status-timeout">⚠️已超时</span>
+            </div>
+        </section>
+    </main>
+    
+    <!-- 申请详情弹窗 -->
+    <div id="detailModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2 style="color: #2B579A; margin-bottom: 24px;">📋 申请详情 - <span id="requestId">REQ240908002</span></h2>
+            
+            <div class="detail-section">
+                <h3 class="detail-title">👤 申请信息</h3>
+                <div class="detail-content"><strong>申请人：</strong>李四</div>
+                <div class="detail-content"><strong>邮箱：</strong>lisi@company.com</div>
+                <div class="detail-content"><strong>申请时间：</strong>2025-09-08 10:15</div>
+            </div>
+            
+            <div class="detail-section">
+                <h3 class="detail-title">🔑 权限详情</h3>
+                <div class="detail-content"><strong>权限系统：</strong>CRM系统</div>
+                <div class="detail-content"><strong>权限对象：</strong>客户信息管理权限</div>
+                <div class="detail-content"><strong>申请原因：</strong>负责华东区域客户关系维护，需要访问客户详细信息以便更好地服务客户</div>
+                <div class="detail-content"><strong>预计期限：</strong>6个月</div>
+            </div>
+            
+            <div class="detail-section">
+                <h3 class="detail-title">👥 审批流程</h3>
+                <div class="detail-content"><strong>当前状态：</strong><span class="status-processing">⏳ 审批中</span></div>
+                <div class="detail-content"><strong>审核人：</strong>李总监 (li.manager@company.com)</div>
+                <div class="detail-content"><strong>审批时间：</strong>-</div>
+                <div class="detail-content"><strong>审批意见：</strong>-</div>
+            </div>
+            
+            <div class="detail-section">
+                <h3 class="detail-title">📧 邮件记录</h3>
+                <ul class="timeline">
+                    <li>10:20 审批邮件已发送给李总监 ✅</li>
+                    <li>10:17 申请提交成功 ✅</li>
+                    <li>10:15 Excel数据导入完成 ✅</li>
+                </ul>
+            </div>
+            
+            <div style="text-align: center; margin-top: 32px;">
+                <button class="filter-btn btn-secondary" style="margin-right: 16px;">📧 重发邮件</button>
+                <button class="filter-btn btn-primary" style="margin-right: 16px;">✏️ 编辑申请</button>
+                <button class="filter-btn" style="background: #DC3545; color: white;">🗑️ 删除申请</button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function showDetail(requestId) {
+            document.getElementById('requestId').textContent = requestId;
+            document.getElementById('detailModal').style.display = 'block';
+        }
+        
+        function closeModal() {
+            document.getElementById('detailModal').style.display = 'none';
+        }
+        
+        // 点击模态框外部关闭
+        window.onclick = function(event) {
+            const modal = document.getElementById('detailModal');
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        }
+        
+        // 模拟搜索功能
+        document.querySelector('.btn-primary').addEventListener('click', function() {
+            alert('正在搜索申请记录...\n已找到符合条件的记录');
+        });
+    </script>
+</body>
+</html>
